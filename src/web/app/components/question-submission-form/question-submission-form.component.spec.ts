@@ -747,6 +747,28 @@ describe('QuestionSubmissionFormComponent', () => {
     expect(component.model.recipientList).toStrictEqual([recipient3, recipient1, recipient2]);
   });
 
+  it('isQuestionAnswered: returns false when all responses are empty', () => {
+    const recipientId = 'recipient-id';
+    component.model.recipientSubmissionForms = [
+      recipientSubmissionFormBuilder.recipientIdentifier(recipientId).build(),
+      recipientSubmissionFormBuilder.recipientIdentifier('someid').build(),
+    ];
+    jest.spyOn(component, 'isFeedbackResponseDetailsEmpty').mockReturnValue(true);
+
+    expect(component.isQuestionAnswered()).toBeFalsy();
+  });
+
+  it('isQuestionAnswered: returns true when at least one response is not empty', () => {
+    const recipientId = 'recipient-id';
+    component.model.recipientSubmissionForms = [
+      recipientSubmissionFormBuilder.recipientIdentifier(recipientId).build(),
+      recipientSubmissionFormBuilder.recipientIdentifier('someid').build(),
+    ];
+    jest.spyOn(component, 'isFeedbackResponseDetailsEmpty').mockReturnValueOnce(false);
+
+    expect(component.isQuestionAnswered()).toBeTruthy();
+  });
+
   it('isSavedForRecipient: returns false if responseDetails.answer is empty string'
     + 'for recipient in FeedbackQuestionType.TEXT', () => {
     component.model.questionType = FeedbackQuestionType.TEXT;
