@@ -100,6 +100,16 @@ export class SessionResultCsvService {
       const statsRows: string[][] = this.getQuestionStats(question);
       if (statsRows.length > 0) {
         csvRows.push(['Summary Statistics']);
+        const totalResponses: number = question.allResponses
+            .filter((resp: ResponseOutput) => !resp.isMissingResponse).length;
+        const expectedResponses: number = question.allResponses.length;
+        const missingResponses: number = expectedResponses - totalResponses;
+        const responseRate: string = expectedResponses > 0
+            ? ((totalResponses / expectedResponses) * 100).toFixed(2)
+            : '0';
+        csvRows.push(['Total Responses', String(totalResponses)]);
+        csvRows.push(['Missing Responses', String(missingResponses)]);
+        csvRows.push(['Response Rate (%)', responseRate]);
         csvRows.push(...statsRows);
         this.generateEmptyRow(csvRows);
         this.generateEmptyRow(csvRows);
