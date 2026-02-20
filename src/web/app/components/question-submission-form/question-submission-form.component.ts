@@ -334,6 +334,15 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   /**
+   * Returns true if at least one recipient has a non-empty answer.
+   */
+  isQuestionAnswered(): boolean {
+    return this.model.recipientSubmissionForms.some(
+        form => !this.isFeedbackResponseDetailsEmpty(form.responseDetails)
+    );
+  }
+
+  /**
    * Tracks submission form for each recipient by the index in the array.
    *
    * @see https://angular.io/api/common/NgForOf#properties

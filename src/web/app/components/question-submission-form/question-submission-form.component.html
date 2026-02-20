@@ -1,4 +1,5 @@
-<div id="question-submission-form-qn-{{ model.questionNumber }}" class="card">
+<div id="question-submission-form-qn-{{ model.questionNumber }}" class="card"
+     [ngClass]="{'unanswered-question': !isQuestionAnswered()}">
   <div class="card-header bg-primary text-white question-header cursor-pointer border-0" (click)="toggleQuestionTab();"
           [ngClass]="currentSelectedSessionView === allSessionViews.GROUP_RECIPIENTS ?
             (isSavedForRecipient(recipientId) ? 'bg-success' : 'bg-primary') :
@@ -7,6 +8,7 @@
       <tm-panel-chevron [isExpanded]="shouldTabExpand()"></tm-panel-chevron>
     </div>
     <i class="fas fa-check me-2" *ngIf="currentSelectedSessionView === allSessionViews.GROUP_RECIPIENTS ? isSavedForRecipient(recipientId) : isSaved" aria-hidden="true"></i>
+    <i class="fas fa-exclamation-circle text-warning me-2" *ngIf="!isQuestionAnswered()" aria-hidden="true"></i>
     <h2 class="question-details"><b>Question {{ model.questionNumber }}: </b>{{ model.questionBrief }}</h2>
   </div>
 
